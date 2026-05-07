@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Agent>
+  <Name>UManager</Name>
+  <Icon>/usr/local/emhttp/plugins/dynamix/icons/umanager.png</Icon>
+  <Variables>
+    <Variable Help="Enter your Push Token from U-Manager Settings → Notifications." Desc="Push Token" Default="">UMANAGER_TOKEN</Variable>
+    <Variable Help="Specify the fields included in the notification title." Desc="Notification Title" Default="$SUBJECT">UMANAGER_TITLE</Variable>
+    <Variable Help="Specify the fields included in the notification body." Desc="Notification Message" Default="$DESCRIPTION">UMANAGER_MESSAGE</Variable>
+  </Variables>
+  <Script>
+    <![CDATA[
+#!/bin/bash
+############
+{0}
+############
+
+if [ -z "$UMANAGER_TOKEN" ]; then
+  logger -t "UManager" "Error: UMANAGER_TOKEN is not set. Configure it in Notification Settings."
+  exit 1
+fi
+
+PUSHURL="https://u-manager-push-worker.jandrop.workers.dev/webhook/$UMANAGER_TOKEN"
+IMPORTANCE="${IMPORTANCE:-normal}"
+
+json_escape() {
+  local s="${1//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  printf '%s' "$s"
+}
+
+ESC_TITLE=$(json_escape "$UMANAGER_TITLE")
+ESC_MESSAGE=$(json_escape "$UMANAGER_MESSAGE")
+ESC_TIMESTAMP=$(json_escape "$TIMESTAMP")
+ESC_LINK=$(json_escape "$LINK")
+
+JSON_PAYLOAD=$(printf '{"title":"%s","message":"%s","importance":"%s","timestamp":"%s","link":"%s"}' \
+  "$ESC_TITLE" "$ESC_MESSAGE" "$IMPORTANCE" "$ESC_TIMESTAMP" "$ESC_LINK")
+
+curl -s -m 10 -X POST "$PUSHURL" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d "$JSON_PAYLOAD" > /dev/null 2>&1
+    ]]>
+  </Script>
+</Agent>

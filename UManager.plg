@@ -1,0 +1,61 @@
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name "UManager">
+<!ENTITY author "jandrop">
+<!ENTITY version "2026.05.07">
+<!ENTITY launch "Settings/Notifications">
+<!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
+<!ENTITY github "jandrop/u-manager-unraid-plugin">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
+]>
+
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.11.0">
+
+<CHANGES>
+###2026.05.07
+- Initial Release: Push notification agent for U-Manager iOS/Android app.
+</CHANGES>
+
+<FILE Run="/bin/bash">
+<INLINE>
+rm -rf /boot/config/plugins/&name;
+mkdir -p /boot/config/plugins/&name;
+echo "Installing U-Manager Notification Agent..."
+</INLINE>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/dynamix/agents/UManager.xml">
+<URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/agents/UManager.xml</URL>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/dynamix/icons/umanager.png">
+<URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png</URL>
+</FILE>
+
+<FILE Run="/bin/bash">
+<INLINE>
+chmod +x /usr/local/emhttp/plugins/dynamix/agents/UManager.xml
+echo ""
+echo "----------------------------------------------------"
+echo " &name; Agent has been successfully installed."
+echo " Version: &version;"
+echo " Go to Settings -> Notifications -> Agents to configure."
+echo "----------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+rm -rf /usr/local/emhttp/plugins/dynamix/agents/UManager.xml
+rm -rf /usr/local/emhttp/plugins/dynamix/icons/umanager.png
+rm -rf /boot/config/plugins/&name;
+echo ""
+echo "----------------------------------------------------"
+echo " &name; Agent has been removed."
+echo "----------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+</PLUGIN>

@@ -19,6 +19,8 @@ This plugin registers itself as a Dynamix Notifications agent. When Unraid raise
 
 3. Click **INSTALL** and wait for the installation to finish.
 
+![Install Plugin screen in Unraid](docs/screenshots/install-plugin.png)
+
 ### From command line (advanced)
 
 ```bash
@@ -52,6 +54,8 @@ plugin install https://raw.githubusercontent.com/jandrop/u-manager-unraid-plugin
 
 3. Click **APPLY** to save.
 4. Click **TEST** to send a test notification. It should arrive on your phone within a few seconds.
+
+![UManager agent settings in Unraid Notification Settings](docs/screenshots/plugin-settings.png)
 
 ---
 

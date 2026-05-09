@@ -86,6 +86,14 @@ plugins/dynamix/
 
 ---
 
+## Credits
+
+This plugin follows the standard **Dynamix Notifications agent** pattern provided by [Unraid](https://unraid.net) — the same format used by all the stock agents (Pushbullet, Telegram, Discord, Pushover, Slack, ntfy.sh, etc.) shipped with Unraid in [`emhttp/plugins/dynamix/agents/`](https://github.com/unraid/webgui/tree/master/emhttp/plugins/dynamix/agents).
+
+The Dynamix system, the agent XML format, the `$SUBJECT` / `$DESCRIPTION` / `$IMPORTANCE` variables, and the `.plg` plugin manifest are all the work of Lime Technology / Unraid. This plugin is just a thin shim that takes the notification Unraid raises and forwards it via Cloudflare Workers to the U-Manager mobile app.
+
+---
+
 ## License
 
 See [LICENSE](LICENSE).

@@ -59,6 +59,65 @@ plugin install https://raw.githubusercontent.com/jandrop/u-manager-unraid-plugin
 
 ---
 
+## How it works
+
+The plugin is a **stateless relay**. Nothing is stored on this server, and no analytics or tracking happens here. When Unraid raises a notification, the data flows like this:
+
+```
+┌──────────┐  Dynamix       ┌────────────┐   HTTPS   ┌─────────────┐   FCM   ┌──────────┐
+│  Unraid  │  notification  │  UManager  │  POST     │  Cloudflare │  push   │  Your    │
+│  event   │  ────────────▶ │  agent     │ ────────▶ │   Worker    │ ──────▶ │  phone   │
+└──────────┘                │  (bash)    │           └─────────────┘         └──────────┘
+                            └────────────┘
+```
+
+- **Unraid → Plugin (this repo):** Unraid hands the agent a notification via the standard Dynamix system, the same way it does for Telegram, Discord, Pushover, etc.
+- **Plugin → Cloudflare Worker:** the agent runs `curl` and POSTs a small JSON payload over HTTPS to a Cloudflare Worker hosted by the U-Manager developer. The Worker maps your push token to the right device.
+- **Cloudflare Worker → Firebase Cloud Messaging (FCM):** the Worker calls Google's FCM HTTP v1 API to deliver the notification to the U-Manager app on your phone.
+
+That's it. There is no other backend, no database, no logs of your notifications.
+
+---
+
+## What data is sent
+
+Each notification contains **exactly these five fields** and nothing else:
+
+| Field         | What it is                  | Example                                |
+|---------------|-----------------------------|----------------------------------------|
+| `title`       | Unraid notification subject | `Parity check finished`                |
+| `message`     | Unraid notification body    | `No errors detected`                   |
+| `importance`  | Severity level              | `normal` / `warning` / `alert`         |
+| `timestamp`   | When Unraid raised it       | `2026-05-09T14:30:00`                  |
+| `link`        | Optional URL to context     | A link inside your Unraid WebGUI       |
+
+The plugin does **not** read or transmit:
+
+- Your server's IP, hostname or any system identifier (beyond what HTTPS itself reveals to Cloudflare as part of the connection)
+- Configuration files, shares, container or VM data
+- API keys, passwords, tokens stored on Unraid
+- CPU, memory, disk, parity or any telemetry not already in the notification's subject/body
+- Anything from notifications other agents emit — only what Dynamix passes to this specific agent
+
+---
+
+## Privacy
+
+This plugin uses **two third-party services** to deliver the push:
+
+1. **Cloudflare Workers** (the relay). Sees the five fields above plus the originating IP for the duration of the HTTPS request. Stores only a `push_token → device_id` mapping in a key-value store, with a 1-year TTL. **No notification content is persisted.**
+2. **Firebase Cloud Messaging** (Google). Sees the title / message / importance to deliver the push. Subject to [Google Firebase privacy](https://firebase.google.com/support/privacy).
+
+You stay in control:
+
+- **Revoke at any time** by toggling push notifications off in the U-Manager app — the token is regenerated and the old one stops working immediately.
+- **Switch devices** by setting up the new phone in U-Manager and pasting the new token here. The old phone stops receiving.
+- **Uninstall this plugin** to stop sending notifications from Unraid altogether.
+
+The U-Manager app's full privacy policy (covering the mobile app side) is at <https://jandrop.github.io/privacy_policy/PRIVACY_POLICY.html>.
+
+---
+
 ## Behaviour
 
 - **One device per token.** A token only delivers to the device that generated it. If you paste the same token on a second phone in U-Manager, the first phone stops receiving notifications. To switch devices, generate a new token on the new phone and update the plugin.

@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "UManager">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.05.18">
+<!ENTITY version "2026.05.18.1">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
@@ -12,16 +12,26 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.11.0" support="https://github.com/&github;/issues">
 
 <CHANGES>
+###2026.05.18.1
+- Show plugin description in the Plugins page (Unraid reads it from
+  the plugin's README.md, not from the .plg comment).
+
 ###2026.05.18
-- Show plugin icon, description and Support link (GitHub Issues) in the Plugins page.
+- Show plugin icon and Support link (GitHub Issues) in the Plugins page.
 
 ###2026.05.07
 - Initial Release: Push notification agent for U-Manager iOS/Android app.
 </CHANGES>
 
-<!--
+<!-- Plugin description shown in the Plugins page. Unraid renders the
+     contents of /usr/local/emhttp/plugins/<name>/README.md as Markdown. -->
+<FILE Name="&plugdir;/README.md">
+<INLINE>
+**&name;**
+
 Push notification agent for the U-Manager mobile app. Forwards Unraid Dynamix notifications to your device.
--->
+</INLINE>
+</FILE>
 
 <FILE Run="/bin/bash">
 <INLINE>

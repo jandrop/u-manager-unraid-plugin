@@ -2,19 +2,26 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "UManager">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.05.07">
+<!ENTITY version "2026.05.18">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
 ]>
 
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.11.0">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.11.0" support="https://github.com/&github;/issues">
 
 <CHANGES>
+###2026.05.18
+- Show plugin icon, description and Support link (GitHub Issues) in the Plugins page.
+
 ###2026.05.07
 - Initial Release: Push notification agent for U-Manager iOS/Android app.
 </CHANGES>
+
+<!--
+Push notification agent for the U-Manager mobile app. Forwards Unraid Dynamix notifications to your device.
+-->
 
 <FILE Run="/bin/bash">
 <INLINE>
@@ -29,6 +36,12 @@ echo "Installing U-Manager Notification Agent..."
 </FILE>
 
 <FILE Name="/usr/local/emhttp/plugins/dynamix/icons/umanager.png">
+<URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png</URL>
+</FILE>
+
+<!-- Plugin icon shown in the Unraid Plugins page. Unraid looks for
+     /usr/local/emhttp/plugins/<name>/<name>.png automatically. -->
+<FILE Name="&plugdir;/&name;.png">
 <URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png</URL>
 </FILE>
 
@@ -49,6 +62,7 @@ echo ""
 <INLINE>
 rm -rf /usr/local/emhttp/plugins/dynamix/agents/UManager.xml
 rm -rf /usr/local/emhttp/plugins/dynamix/icons/umanager.png
+rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
 echo ""
 echo "----------------------------------------------------"

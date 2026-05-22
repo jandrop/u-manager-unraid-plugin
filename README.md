@@ -6,6 +6,20 @@ This plugin registers itself as a Dynamix Notifications agent. When Unraid raise
 
 ---
 
+## ⚠️ Requirements
+
+> **You need U-Manager app version `1.2.1` or newer.**
+>
+> Earlier versions have a known bug that prevents the push token from being
+> generated (*"Token not available yet. Open the app again to retry"*).
+>
+> Check your installed version in the app under **Settings → About**. If you
+> are below `1.2.1`, update from the store before configuring this plugin.
+> Note that the **beta** channel may currently be behind production — if so,
+> leave the beta program and install the latest production release.
+
+---
+
 ## Installation
 
 ### From Unraid WebGUI
@@ -32,6 +46,8 @@ plugin install https://raw.githubusercontent.com/jandrop/u-manager-unraid-plugin
 ## Configuration
 
 ### Step 1 — Get your push token in U-Manager
+
+> **Make sure the app is on version `1.2.1` or newer** (see [Requirements](#️-requirements)). Older versions fail to generate the token.
 
 1. Open the **U-Manager** app on your phone.
 2. Go to **Settings** → **Notifications**.

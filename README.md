@@ -56,6 +56,13 @@ plugin install https://raw.githubusercontent.com/jandrop/u-manager-unraid-plugin
 
 > **The token is regenerated each time you toggle notifications off and back on.** If you do that, you must paste the new token into the plugin again — the old token will not deliver anymore.
 
+> **Stuck on "Token not available yet"?** A DNS / ad blocker on your phone or
+> network (**NextDNS**, Pi-hole, AdGuard, etc.) can silently block the request
+> the app makes to register the device, so the token never arrives. If you use
+> one, pause it while enabling notifications — or check its block log for the
+> domain it dropped right after you toggled notifications on, and add an allow
+> rule for it. This has been the cause for several users.
+
 ### Step 2 — Configure the plugin in Unraid
 
 1. In Unraid, go to **Settings** → **Notification Settings**.

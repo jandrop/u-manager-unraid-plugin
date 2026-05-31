@@ -2,17 +2,20 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "UManager">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.05.31.3">
+<!ENTITY version "2026.05.31.4">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
-<!ENTITY icon "https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png">
+<!ENTITY icon "https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png?v=&version;">
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&name;.png" min="6.11.0" support="https://github.com/&github;/issues">
 
 <CHANGES>
+###2026.05.31.4
+- Fix the plugin icon on the Unraid Plugins page.
+
 ###2026.05.18.1
 - Show plugin description in the Plugins page (Unraid reads it from
   the plugin's README.md, not from the .plg comment).
@@ -47,13 +50,13 @@ echo "Installing U-Manager Notification Agent..."
 </FILE>
 
 <FILE Name="/usr/local/emhttp/plugins/dynamix/icons/umanager.png">
-<URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png</URL>
+<URL>&icon;</URL>
 </FILE>
 
 <!-- Plugin icon shown in the Unraid Plugins page. Unraid looks for
      /usr/local/emhttp/plugins/<name>/<name>.png automatically. -->
 <FILE Name="&plugdir;/&name;.png">
-<URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png</URL>
+<URL>&icon;</URL>
 </FILE>
 
 <FILE Run="/bin/bash">

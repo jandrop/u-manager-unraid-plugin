@@ -3,7 +3,7 @@
 <!ENTITY name "UManager">
 <!ENTITY displayName "U-Manager Push Notifications">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.06.03.1">
+<!ENTITY version "2026.06.03.2">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
@@ -11,10 +11,19 @@
 <!ENTITY icon "https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png?v=&version;">
 ]>
 
-<PLUGIN name="&displayName;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&name;.png" min="6.11.0" support="https://github.com/&github;/issues">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&name;.png" min="6.11.0" support="https://github.com/&github;/issues">
 
 <CHANGES>
 <![CDATA[
+###2026.06.03.2
+- Fix the plugin icon and description not showing in the Unraid
+  Plugins page after a fresh install on top of 2026.06.03.1. The
+  previous release tried to set a human row title at the wrong place
+  in the manifest, which broke the on-disk path the Plugins page
+  uses to load the icon and the description from. The human name
+  ("U-Manager Push Notifications") now comes from the README header
+  instead.
+
 ###2026.06.03.1
 - The Unraid Plugins page now shows the plugin as "U-Manager Push
   Notifications" so it's clearer what the entry does. No behaviour

@@ -1,0 +1,33 @@
+name: Release
+
+# Fires on Unraid-style version tags: YYYY.MM.DD[.N], e.g. 2026.06.03.1.
+on:
+  push:
+    tags:
+      - '2[0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Publish GitHub release with the .plg asset
+        # This plugin has no separate tarball — the .plg fetches each
+        # FILE directly from raw.githubusercontent.com at install time.
+        # We only need to ship the .plg itself as an asset so the
+        # Releases API counts installs (the side feed in
+        # u-manager-companion/store/feed.json points at
+        # releases/latest/download/UManager.plg, which resolves to
+        # this asset).
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: UManager.plg
+          generate_release_notes: false
+          fail_on_unmatched_files: true

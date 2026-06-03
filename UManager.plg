@@ -1,18 +1,20 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE PLUGIN [
 <!ENTITY name "UManager">
+<!ENTITY displayName "U-Manager Push Notifications">
 <!ENTITY author "jandrop">
 <!ENTITY version "2026.05.31.4">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
-<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/main/&name;.plg">
+<!ENTITY pluginURL "https://github.com/&github;/releases/latest/download/&name;.plg">
 <!ENTITY icon "https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png?v=&version;">
 ]>
 
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&name;.png" min="6.11.0" support="https://github.com/&github;/issues">
+<PLUGIN name="&displayName;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="&name;.png" min="6.11.0" support="https://github.com/&github;/issues">
 
 <CHANGES>
+<![CDATA[
 ###2026.05.31.4
 - Fix the plugin icon on the Unraid Plugins page.
 
@@ -25,13 +27,14 @@
 
 ###2026.05.07
 - Initial Release: Push notification agent for U-Manager iOS/Android app.
+]]>
 </CHANGES>
 
 <!-- Plugin description shown in the Plugins page. Unraid renders the
      contents of /usr/local/emhttp/plugins/<name>/README.md as Markdown. -->
 <FILE Name="&plugdir;/README.md">
 <INLINE>
-**&name;**
+**&displayName;**
 
 Push notification agent for the U-Manager mobile app. Forwards Unraid Dynamix notifications to your device.
 </INLINE>
@@ -41,7 +44,7 @@ Push notification agent for the U-Manager mobile app. Forwards Unraid Dynamix no
 <INLINE>
 rm -rf /boot/config/plugins/&name;
 mkdir -p /boot/config/plugins/&name;
-echo "Installing U-Manager Notification Agent..."
+echo "Installing &displayName;..."
 </INLINE>
 </FILE>
 
@@ -64,7 +67,7 @@ echo "Installing U-Manager Notification Agent..."
 chmod +x /usr/local/emhttp/plugins/dynamix/agents/UManager.xml
 echo ""
 echo "----------------------------------------------------"
-echo " &name; Agent has been successfully installed."
+echo " &displayName; has been successfully installed."
 echo " Version: &version;"
 echo " Go to Settings -> Notifications -> Agents to configure."
 echo "----------------------------------------------------"
@@ -80,7 +83,7 @@ rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
 echo ""
 echo "----------------------------------------------------"
-echo " &name; Agent has been removed."
+echo " &displayName; has been removed."
 echo "----------------------------------------------------"
 echo ""
 </INLINE>

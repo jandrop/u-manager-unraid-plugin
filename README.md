@@ -174,7 +174,7 @@ This plugin follows the standard **Dynamix Notifications agent** pattern provide
 
 The Dynamix system, the agent XML format, the `$SUBJECT` / `$DESCRIPTION` / `$IMPORTANCE` variables, and the `.plg` plugin manifest are all the work of Lime Technology / Unraid. This plugin is just a thin shim that takes the notification Unraid raises and forwards it via Cloudflare Workers to the U-Manager mobile app.
 
-The notification agent script is adapted from [`unraid-deck-agent`](https://github.com/mccray-s/unraid-deck-agent) by mccray (MIT License — Copyright (c) 2026 mccray).
+The notification agent script is adapted from [`unraid-deck-agent`](https://github.com/mccray-s/unraid-deck-agent) by mccray (MIT License, Copyright (c) 2026 mccray).
 
 ---
 

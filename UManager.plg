@@ -3,7 +3,7 @@
 <!ENTITY name "UManager">
 <!ENTITY displayName "U-Manager Push Notifications">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.06.03.2">
+<!ENTITY version "2026.09.17">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
@@ -15,6 +15,12 @@
 
 <CHANGES>
 <![CDATA[
+###2026.09.17
+- Stop re-downloading the plugin's agent XML and icon on every boot.
+  Each file is now fetched once per version and kept on /boot, so a
+  boot with no internet access still finishes the install instead of
+  leaving the agent missing.
+
 ###2026.06.03.2
 - Fix the plugin icon and description not showing in the Unraid
   Plugins page after a fresh install on top of 2026.06.03.1. The
@@ -56,28 +62,33 @@ Push notification agent for the U-Manager mobile app. Forwards Unraid Dynamix no
 
 <FILE Run="/bin/bash">
 <INLINE>
-rm -rf /boot/config/plugins/&name;
 mkdir -p /boot/config/plugins/&name;
 echo "Installing &displayName;..."
 </INLINE>
 </FILE>
 
-<FILE Name="/usr/local/emhttp/plugins/dynamix/agents/UManager.xml">
+<!-- Unraid replays this install on every boot and skips a declared file
+     whose target already exists, so both land on /boot and a boot with no
+     internet still works. These blocks declare no hash, so the version
+     goes in the name to make an update fetch a new file. -->
+<FILE Name="/boot/config/plugins/&name;/UManager-&version;.xml">
 <URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/agents/UManager.xml</URL>
 </FILE>
 
-<FILE Name="/usr/local/emhttp/plugins/dynamix/icons/umanager.png">
-<URL>&icon;</URL>
-</FILE>
-
-<!-- Plugin icon shown in the Unraid Plugins page. Unraid looks for
-     /usr/local/emhttp/plugins/<name>/<name>.png automatically. -->
-<FILE Name="&plugdir;/&name;.png">
+<FILE Name="/boot/config/plugins/&name;/umanager-&version;.png">
 <URL>&icon;</URL>
 </FILE>
 
 <FILE Run="/bin/bash">
 <INLINE>
+# rootfs is RAM and empty again after every boot. Unraid loads the
+# Plugins-page icon from &name;.png under &plugdir;.
+B=/boot/config/plugins/&name;
+cp $B/UManager-&version;.xml /usr/local/emhttp/plugins/dynamix/agents/UManager.xml
+cp $B/umanager-&version;.png /usr/local/emhttp/plugins/dynamix/icons/umanager.png
+cp $B/umanager-&version;.png &plugdir;/&name;.png
+rm -f $(ls $B/UManager-*.xml 2>/dev/null | grep -v '&version;')
+rm -f $(ls $B/umanager-*.png 2>/dev/null | grep -v '&version;')
 chmod +x /usr/local/emhttp/plugins/dynamix/agents/UManager.xml
 echo ""
 echo "----------------------------------------------------"

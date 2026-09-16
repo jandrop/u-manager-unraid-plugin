@@ -3,7 +3,7 @@
 <!ENTITY name "UManager">
 <!ENTITY displayName "U-Manager Push Notifications">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.06.03.2">
+<!ENTITY version "2026.09.17">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
@@ -15,6 +15,12 @@
 
 <CHANGES>
 <![CDATA[
+###2026.09.17
+- Stop re-downloading the plugin's agent XML and icon on every boot.
+  Each file is now fetched once per version and kept on /boot, so a
+  boot with no internet access still finishes the install instead of
+  leaving the agent missing.
+
 ###2026.06.03.2
 - Fix the plugin icon and description not showing in the Unraid
   Plugins page after a fresh install on top of 2026.06.03.1. The

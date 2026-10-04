@@ -3,7 +3,7 @@
 <!ENTITY name "UManager">
 <!ENTITY displayName "U-Manager Push Notifications">
 <!ENTITY author "jandrop">
-<!ENTITY version "2026.09.17">
+<!ENTITY version "2026.10.04">
 <!ENTITY launch "Settings/Notifications">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
@@ -17,6 +17,10 @@
 
 <CHANGES>
 <![CDATA[
+###2026.10.04
+- Declare an MD5 for the agent XML and icon the plugin downloads, and
+  fetch both from the release tag instead of the main branch.
+
 ###2026.09.17
 - Stop re-downloading the plugin's agent XML and icon on every boot.
   Each file is now fetched once per version and kept on /boot, so a

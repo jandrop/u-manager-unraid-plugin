@@ -8,7 +8,7 @@
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "jandrop/u-manager-unraid-plugin">
 <!ENTITY pluginURL "https://github.com/&github;/releases/latest/download/&name;.plg">
-<!ENTITY icon "https://raw.githubusercontent.com/&github;/main/plugins/dynamix/icons/umanager.png?v=&version;">
+<!ENTITY icon "https://raw.githubusercontent.com/&github;/&version;/plugins/dynamix/icons/umanager.png">
 <!ENTITY xmlMD5 "c45f07be8ce5a4358eb46217ce4c254a">
 <!ENTITY iconMD5 "dbb5da55e4bfc20fa23a027f6cbee41b">
 ]>
@@ -71,10 +71,11 @@ echo "Installing &displayName;..."
 
 <!-- Unraid replays this install on every boot and skips a declared file
      whose target already exists with a matching hash, so both land on
-     /boot and a boot with no internet still works. The MD5 entities above
-     must be regenerated whenever UManager.xml or umanager.png changes. -->
+     /boot and a boot with no internet still works. Both are fetched from
+     the release tag, and the release workflow fails if the MD5 entities
+     above do not match the tagged files. -->
 <FILE Name="/boot/config/plugins/&name;/UManager-&version;.xml">
-<URL>https://raw.githubusercontent.com/&github;/main/plugins/dynamix/agents/UManager.xml</URL>
+<URL>https://raw.githubusercontent.com/&github;/&version;/plugins/dynamix/agents/UManager.xml</URL>
 <MD5>&xmlMD5;</MD5>
 </FILE>
 

@@ -16,6 +16,20 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Check the .plg matches the tag
+        # Installs download these files from the tag and reject any whose
+        # MD5 differs from the one declared in the .plg.
+        run: |
+          entity() { sed -n "s/^<!ENTITY $1 \"\(.*\)\">$/\1/p" UManager.plg; }
+          fail=0
+          check() {
+            if [ "$1" != "$2" ]; then echo "::error::$3: .plg has '$1', expected '$2'"; fail=1; fi
+          }
+          check "$(entity version)" "${GITHUB_REF_NAME}" "version"
+          check "$(entity xmlMD5)" "$(md5sum < plugins/dynamix/agents/UManager.xml | cut -d' ' -f1)" "xmlMD5"
+          check "$(entity iconMD5)" "$(md5sum < plugins/dynamix/icons/umanager.png | cut -d' ' -f1)" "iconMD5"
+          exit $fail
+
       - name: Publish GitHub release with the .plg asset
         # This plugin has no separate tarball — the .plg fetches each
         # FILE directly from raw.githubusercontent.com at install time.
